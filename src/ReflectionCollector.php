@@ -39,13 +39,6 @@ class ReflectionCollector
     protected static array $propertyReflections = [];
 
     /**
-     * 函数反射库
-     *
-     * @var ReflectionFunction[] [$functionName => ReflectionFunction]
-     */
-    protected static array $functionReflections = [];
-
-    /**
      * 类反射
      *
      * @param string $classname
@@ -92,22 +85,6 @@ class ReflectionCollector
             return self::$propertyReflections[$classname][$propertyName] ??= self::class($classname)->getProperty($propertyName);
         } catch (ReflectionException) {
             throw new ReflectedException($classname . '::' . $propertyName, ReflectedException::PROPERTY_NOT_EXIST);
-        }
-    }
-
-    /**
-     * 函数反射
-     *
-     * @param string $functionName
-     * @return ReflectionFunction
-     * @throws ReflectedException
-     */
-    public static function function(string $functionName): ReflectionFunction
-    {
-        try {
-            return self::$functionReflections[$functionName] ??= new ReflectionFunction($functionName);
-        } catch (ReflectionException) {
-            throw new ReflectedException($functionName, ReflectedException::FUNCTION_NOT_EXIST);
         }
     }
 }

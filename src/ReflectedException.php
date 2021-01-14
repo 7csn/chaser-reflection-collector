@@ -19,7 +19,7 @@ class ReflectedException extends Exception
     public const CLASS_NOT_EXIST = 1;
 
     /**
-     * 错误码：类函数不存在
+     * 错误码：类方法不存在
      */
     public const METHOD_NOT_EXIST = 2;
 
@@ -27,9 +27,4 @@ class ReflectedException extends Exception
      * 错误码：类属性不存在
      */
     public const PROPERTY_NOT_EXIST = 3;
-
-    /**
-     * 错误码：方法不存在
-     */
-    public const FUNCTION_NOT_EXIST = 4;
 }

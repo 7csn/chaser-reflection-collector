@@ -35,13 +35,6 @@ class AttributeCollector
     protected static array $propertyAttributes = [];
 
     /**
-     * 函数注解反射库
-     *
-     * @var ReflectionAttribute[][] [$functionName => [$attributeName => ReflectionAttribute]]
-     */
-    protected static array $functionAttributes = [];
-
-    /**
      * 类注解反射
      *
      * @param string $classname
@@ -80,18 +73,5 @@ class AttributeCollector
     public static function property(string $classname, string $propertyName, string $attributeName): array
     {
         return self::$propertyAttributes[$classname][$propertyName][$attributeName] ??= ReflectionCollector::property($classname, $propertyName)->getAttributes($attributeName);
-    }
-
-    /**
-     * 函数注解反射
-     *
-     * @param string $functionName
-     * @param string $attributeName
-     * @return ReflectionAttribute[]
-     * @throws ReflectedException
-     */
-    public static function function(string $functionName, string $attributeName): array
-    {
-        return self::$functionAttributes[$functionName][$attributeName] ??= ReflectionCollector::function($functionName)->getAttributes($attributeName);
     }
 }
