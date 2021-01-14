@@ -36,17 +36,17 @@ composer require 7csn/reflection-collector
     ```php
     use chaser\collector\AttributeCollector; 
     
-    # 获取类注解反射列表
-    AttributeCollector::class(string $classname): ReflectionAttribute[];
+    # 获取类指定注解反射列表
+    AttributeCollector::class(string $classname, string $attributeName): ReflectionAttribute[];
     
-    # 获取类方法注解反射列表
-    AttributeCollector::method(string $classname, string $methodName): ReflectionAttribute[];
+    # 获取类方法指定注解反射列表
+    AttributeCollector::method(string $classname, string $methodName, string $attributeName): ReflectionAttribute[];
     
-    # 获取类属性注解反射列表
-    AttributeCollector::property(string $classname, string $propertyName): ReflectionAttribute[];
+    # 获取类属性指定注解反射列表
+    AttributeCollector::property(string $classname, string $propertyName, string $attributeName): ReflectionAttribute[];
     
-    # 获取函数注解反射列表
-    AttributeCollector::function(string $functionName): ReflectionAttribute[];
+    # 获取函数指定注解反射列表
+    AttributeCollector::function(string $functionName, string $attributeName): ReflectionAttribute[];
     ```
 
 * 可能抛出异常 chaser\collector\ReflectedException，错误码：

@@ -16,28 +16,28 @@ class AttributeCollector
     /**
      * 类注解反射库
      *
-     * @var ReflectionAttribute[] [$className => ReflectionAttribute]
+     * @var ReflectionAttribute[][] [$className => [$attributeName => ReflectionAttribute]]
      */
     protected static array $classAttributes = [];
 
     /**
      * 类方法注解反射库
      *
-     * @var ReflectionAttribute[][] [$className => [$methodName => ReflectionAttribute]]
+     * @var ReflectionAttribute[][][] [$className => [$methodName => [$attributeName => ReflectionAttribute]]]
      */
     protected static array $methodAttributes = [];
 
     /**
      * 类属性注解反射库
      *
-     * @var ReflectionAttribute[][] [$className => [$propertyName => ReflectionAttribute]]
+     * @var ReflectionAttribute[][][] [$className => [$propertyName => [$attributeName => ReflectionAttribute]]]
      */
     protected static array $propertyAttributes = [];
 
     /**
      * 函数注解反射库
      *
-     * @var ReflectionAttribute[] [$functionName => ReflectionAttribute]
+     * @var ReflectionAttribute[][] [$functionName => [$attributeName => ReflectionAttribute]]
      */
     protected static array $functionAttributes = [];
 
@@ -45,12 +45,13 @@ class AttributeCollector
      * 类注解反射
      *
      * @param string $classname
+     * @param string $attributeName
      * @return ReflectionAttribute[]
      * @throws ReflectedException
      */
     public static function class(string $classname): array
     {
-        return self::$classAttributes[$classname] ??= ReflectionCollector::class($classname)->getAttributes();
+        return self::$classAttributes[$classname][$attributeName] ??= ReflectionCollector::class($classname)->getAttributes($attributeName);
     }
 
     /**
@@ -58,12 +59,13 @@ class AttributeCollector
      *
      * @param string $classname
      * @param string $methodName
+     * @param string $attributeName
      * @return ReflectionAttribute[]
      * @throws ReflectedException
      */
-    public static function method(string $classname, string $methodName): array
+    public static function method(string $classname, string $methodName, string $attributeName): array
     {
-        return self::$methodAttributes[$classname][$methodName] ??= ReflectionCollector::method($classname, $methodName)->getAttributes();
+        return self::$methodAttributes[$classname][$methodName][$attributeName] ??= ReflectionCollector::method($classname, $methodName)->getAttributes($attributeName);
     }
 
     /**
@@ -71,23 +73,25 @@ class AttributeCollector
      *
      * @param string $classname
      * @param string $propertyName
+     * @param string $attributeName
      * @return ReflectionAttribute[]
      * @throws ReflectedException
      */
-    public static function property(string $classname, string $propertyName): array
+    public static function property(string $classname, string $propertyName, string $attributeName): array
     {
-        return self::$propertyAttributes[$classname][$propertyName] ??= ReflectionCollector::property($classname, $propertyName)->getAttributes();
+        return self::$propertyAttributes[$classname][$propertyName][$attributeName] ??= ReflectionCollector::property($classname, $propertyName)->getAttributes($attributeName);
     }
 
     /**
      * 函数注解反射
      *
      * @param string $functionName
+     * @param string $attributeName
      * @return ReflectionAttribute[]
      * @throws ReflectedException
      */
-    public static function function (string $functionName): array
+    public static function function(string $functionName, string $attributeName): array
     {
-        return self::$functionAttributes[$functionName] ??= ReflectionCollector::function($functionName)->getAttributes();
+        return self::$functionAttributes[$functionName][$attributeName] ??= ReflectionCollector::function($functionName)->getAttributes($attributeName);
     }
 }
