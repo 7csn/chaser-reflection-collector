@@ -18,6 +18,7 @@ composer require 7csn/reflection-collector
 
     ```php
     use chaser\collector\RelectionCollector;
+    use Closure;
 
     # 获取类反射
     ReflectionCollector::class(string $classname): ReflectionClass;
@@ -29,12 +30,13 @@ composer require 7csn/reflection-collector
     ReflectionCollector::property(string $classname, string $propertyName): ReflectionProperty;
     
     # 获取函数反射
-    ReflectionCollector::function(string $functionName): ReflectionFunction;
+    ReflectionCollector::function(Closure|string $functionOrName): ReflectionFunction;
     ```
 * 注解反射（php >= 8)
 
     ```php
     use chaser\collector\AttributeCollector; 
+    use Closure;
     
     # 获取类指定注解反射列表
     AttributeCollector::class(string $classname, string $attributeName): ReflectionAttribute[];
@@ -46,7 +48,7 @@ composer require 7csn/reflection-collector
     AttributeCollector::property(string $classname, string $propertyName, string $attributeName): ReflectionAttribute[];
     
     # 获取函数指定注解反射列表
-    AttributeCollector::function(string $functionName, string $attributeName): ReflectionAttribute[];
+    AttributeCollector::function(Closure|string $functionOrName, string $attributeName): ReflectionAttribute[];
     ```
 
 * 可能抛出异常 chaser\collector\ReflectedException，错误码：

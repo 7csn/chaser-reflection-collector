@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace chaser\collector;
 
+use Closure;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionFunction;
@@ -39,52 +40,77 @@ class ReflectionCollector
     protected static array $propertyReflections = [];
 
     /**
+     * 函数反射库
+     *
+     * @var ReflectionProperty[][] [$functionName => [$propertyName => ReflectionFunction]]
+     */
+    protected static array $functionReflections = [];
+
+    /**
      * 类反射
      *
-     * @param string $classname
+     * @param string $class
      * @return ReflectionClass
      * @throws ReflectedException
      */
-    public static function class(string $classname): ReflectionClass
+    public static function getClass(string $class): ReflectionClass
     {
         try {
-            return self::$classReflections[$classname] ??= new ReflectionClass($classname);
+            return self::$classReflections[$class] ??= new ReflectionClass($class);
         } catch (ReflectionException) {
-            throw new ReflectedException($classname, ReflectedException::CLASS_NOT_EXIST);
+            throw new ReflectedException($class, ReflectedException::CLASS_NOT_EXIST);
         }
     }
 
     /**
      * 类方法反射
      *
-     * @param string $classname
-     * @param string $methodName
+     * @param string $class
+     * @param string $method
      * @return ReflectionMethod
      * @throws ReflectedException
      */
-    public static function method(string $classname, string $methodName): ReflectionMethod
+    public static function getMethod(string $class, string $method): ReflectionMethod
     {
         try {
-            return self::$methodReflections[$classname][$methodName] ??= self::class($classname)->getMethod($methodName);
+            return self::$methodReflections[$class][$method] ??= self::getClass($class)->getMethod($method);
         } catch (ReflectionException) {
-            throw new ReflectedException($classname . '::' . $methodName, ReflectedException::METHOD_NOT_EXIST);
+            throw new ReflectedException($class . '::' . $method, ReflectedException::METHOD_NOT_EXIST);
         }
     }
 
     /**
      * 类属性反射
      *
-     * @param string $classname
-     * @param string $propertyName
+     * @param string $class
+     * @param string $property
      * @return ReflectionProperty
      * @throws ReflectedException
      */
-    public static function property(string $classname, string $propertyName): ReflectionProperty
+    public static function getProperty(string $class, string $property): ReflectionProperty
     {
         try {
-            return self::$propertyReflections[$classname][$propertyName] ??= self::class($classname)->getProperty($propertyName);
+            return self::$propertyReflections[$class][$property] ??= self::getClass($class)->getProperty($property);
         } catch (ReflectionException) {
-            throw new ReflectedException($classname . '::' . $propertyName, ReflectedException::PROPERTY_NOT_EXIST);
+            throw new ReflectedException($class . '::' . $property, ReflectedException::PROPERTY_NOT_EXIST);
+        }
+    }
+
+    /**
+     * 类方法反射
+     *
+     * @param Closure|string $function
+     * @return ReflectionFunction
+     * @throws ReflectedException
+     */
+    public static function getFunction(Closure|string $function): ReflectionFunction
+    {
+        try {
+            return is_string($function)
+                ? self::$functionReflections[$function] ??= new ReflectionFunction($function)
+                : new ReflectionFunction($function);
+        } catch (ReflectionException) {
+            throw new ReflectedException($function, ReflectedException::FUNCTION_NOT_EXIST);
         }
     }
 }

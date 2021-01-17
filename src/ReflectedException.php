@@ -27,4 +27,9 @@ class ReflectedException extends Exception
      * 错误码：类属性不存在
      */
     public const PROPERTY_NOT_EXIST = 3;
+
+    /**
+     * 错误码：函数不存在
+     */
+    public const FUNCTION_NOT_EXIST = 4;
 }
