@@ -21,7 +21,7 @@ class ReflectionCollector
     /**
      * 类型反射库
      *
-     * @var array [$className => ReflectionClass]
+     * @var ReflectionClass[] [$className => ReflectionClass]
      */
     protected static array $classReflections = [];
 
@@ -42,7 +42,7 @@ class ReflectionCollector
     /**
      * 函数反射库
      *
-     * @var ReflectionProperty[][] [$functionName => [$propertyName => ReflectionFunction]]
+     * @var ReflectionFunction[][] [$functionName => [$propertyName => ReflectionFunction]]
      */
     protected static array $functionReflections = [];
 
